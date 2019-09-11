@@ -20,7 +20,7 @@ public class SneakerApplication {
     public static void main(String[] args) {
         SpringApplication.run(SneakerApplication.class, args);
     }
-
+    double totalprice = 0;
     TestSingleton totalInCart = TestSingleton.getInstance();
 
     List<SneakerShop> cart = new ArrayList<SneakerShop>();
@@ -94,12 +94,17 @@ public class SneakerApplication {
                 }
             }
         }
+
+        for (int i=0; i<cart.size(); i++){
+            totalprice += cart.get(i).getPrice();
+        }
+        totalInCart.setTotalPrice(totalprice);
         try {
-            FileOutputStream f = new FileOutputStream(new File("OrderInCart.txt"));
+            FileOutputStream f = new FileOutputStream(new File("Price.txt"));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             // Write objects to file
-            o.writeObject(new Object[]{cart, totalInCart});
+            o.writeDouble(totalprice);
 
 
             o.close();
